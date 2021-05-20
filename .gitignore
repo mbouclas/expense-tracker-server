@@ -79,3 +79,4 @@ clients/*
 pm2-production.json
 src/submodules/*
 json-dump/*
+prisma/*.db
