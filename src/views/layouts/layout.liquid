@@ -1,0 +1,30 @@
+<html>
+<head>
+    <link href="/stylesheets/styles.css" rel="stylesheet">
+
+</head>
+<body>
+
+<header>Header
+    ---
+    {{ AppState.defaultLanguageCode }}
+    ---
+    {{ businessCategoryTree.length }}
+
+{% comment %}    <ul>
+        {% for cat in businessCategoryTree %}
+            <li>
+                <a href="{{ 'business-category' | url : uuid: cat.uuid, slug: cat.slug }}">{{ cat.name | defaultLang }}</a>
+            </li>
+        {% endfor %}
+    </ul>{% endcomment %}
+
+</header>
+
+
+<div class="container">
+    {% block content %}My default content{% endblock %}
+</div>
+<footer>Footer</footer>
+</body>
+</html>

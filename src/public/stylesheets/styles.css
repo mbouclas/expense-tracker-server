@@ -1,0 +1,28 @@
+demo-counter {
+    background: green;
+}
+
+ input {
+    border: 1px solid black;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+.button{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+button::shadow {
+    width: 100%;
+}
+
+.page-active {
+    background-color: blue;
+}
