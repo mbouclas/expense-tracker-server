@@ -1,8 +1,7 @@
 import {merge} from 'lodash';
-import {IGenericObject} from "../models/general";
-import {NextFunction, Request, Response} from "express";
 import {getMetadataArgsStorage} from "routing-controllers";
 import {createFilterUrl} from "./serializers";
+import {IGenericObject} from "../models/generic";
 
 export class NamedRoutes {
     public static absolute = true;
