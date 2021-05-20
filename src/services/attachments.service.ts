@@ -97,5 +97,16 @@ export class AttachmentsService extends BaseDbService {
         }
     }
 
+    async getImageUrl(id: number) {
+        const item = await this.findOne({id});
+        const objectStorage = new ObjectStorageService();
+        try {
+            return await objectStorage.getObjectUrl(this.bucketName, item.url );
+        }
+        catch (e) {
+            return '';
+        }
+    }
+
 
 }

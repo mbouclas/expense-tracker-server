@@ -40,4 +40,9 @@ export class AttachmentController {
     async downloadFile(@Param('id') id: string) {
         return await (new AttachmentsService()).downloadFileById(parseInt(id));
     }
+
+    @Get('/image-url/:id')
+    async getImageUrl(@Param('id') id: string) {
+        return await (new AttachmentsService()).getImageUrl(parseInt(id));
+    }
 }
