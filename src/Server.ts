@@ -16,7 +16,6 @@ import {readDirFiles} from "./helpers/readDirFiles";
 const RedisStore = require('connect-redis')(session);
 const app = express();
 
-
 /************************************************************************************
  *                              Set basic express settings
  ***********************************************************************************/

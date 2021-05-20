@@ -1,5 +1,6 @@
 import {IReadDirectoryFilesResult, readDirFiles} from "../helpers/readDirFiles";
-import logger from "@shared/Logger";
+import logger from "../shared/Logger";
+
 
 export class EventLoaderService {
     async loadFromDir(dir: string) {

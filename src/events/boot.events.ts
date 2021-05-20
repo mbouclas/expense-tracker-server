@@ -1,5 +1,5 @@
 import {AppState, Event, Prisma} from "../index";
-import {ViewEngine} from "@server";
+import {ViewEngine} from "../Server";
 import {ExpensesService} from "../services/expenses.service";
 import {FirstTimeBootService} from "../services/firstTimeBoot.service";
 import {JwtService} from "../services/jwt.service";
