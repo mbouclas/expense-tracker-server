@@ -4,6 +4,7 @@ process.env.IS_CLI="true";
 import {PrismaClient} from "@prisma/client";
 import {BaseCliCommand} from "./cli/base-command";
 import {CreateUserCommand} from "./cli/create-user.command";
+import {UpdateUserCommand} from "./cli/update-user.command";
 
 
 const argv = require('minimist')(process.argv.slice(2));
@@ -19,6 +20,7 @@ export let Prisma = new PrismaClient({
 
 export const commands: typeof BaseCliCommand[] = [
     CreateUserCommand,
+    UpdateUserCommand,
 ];
 
 export class CLI {
