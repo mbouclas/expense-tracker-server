@@ -7,8 +7,7 @@ import {unlinkSync} from 'fs';
 import {basename, join, resolve} from 'path';
 import {AttachmentsService} from "../services/attachments.service";
 import {Request} from "express";
-import {renameSync} from 'fs';
-import {ObjectStorageService} from "../services/object-storage/ObjectStorage.service";
+
 
 const multer = require('multer');
 const storage = multer.diskStorage({

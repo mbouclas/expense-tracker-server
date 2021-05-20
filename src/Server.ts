@@ -8,7 +8,6 @@ const compression = require('compression');
 import session from "express-session";
 import { Redis} from "./index";
 import cors = require('cors');
-import bodyParser from "body-parser";
 import {useContainer, useExpressServer} from "routing-controllers";
 import {Container} from "typedi";
 import {Liquid} from "liquidjs";

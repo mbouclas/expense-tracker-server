@@ -87,6 +87,7 @@ export class ExpensesService extends BaseDbService {
 
         if (item.price) {
             item.price = moneyToDbFormat(item.price);
+            console.log(item.price)
         }
 
         if (!item.vendorId) {
