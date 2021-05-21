@@ -44,6 +44,7 @@ model Expense {
     price Int @default(0)
     attachments Attachment[]
     expenseTypes ExpenseType[]
+    purchased_at DateTime    @default(now())
     created_at DateTime    @default(now())
     updated_at DateTime    @default(now())
 

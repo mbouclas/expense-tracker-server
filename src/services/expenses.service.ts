@@ -121,10 +121,10 @@ export class ExpensesService extends BaseDbService {
             delete item.userId;
         }
 
-        console.log(JSON.stringify({
+ /*       console.log(JSON.stringify({
             where: {id},
             data: {...item, ...{updated_at: new Date().toISOString()}},
-        }))
+        }))*/
 
         return await this.db.expense.update({
             where: {id},
