@@ -86,7 +86,7 @@ export class ExportService {
             {header: '#ID', key: 'id'},
             {header: 'Title', key: 'title'},
             {header: 'Price', key: 'price', numFmt: '"£"#,##0.00;[Red]\\-"£"#,##0.00'},
-            {header: 'Date', key: 'updated_at'},
+            {header: 'Date', key: 'purchased_at'},
             {header: '#Attachments', key: 'attachment_count'},
             {header: 'Attachment Location', key: 'attachment_file_name'},
         ];
@@ -111,7 +111,7 @@ export class ExportService {
                 id: item.id,
                 title: item.title,
                 price: moneyFromDbFormat(item.price),
-                updated_at: item.updated_at,
+                purchased_at: item.purchased_at,
                 // @ts-ignore
                 attachment_count: Array.isArray(item.attachments) ? item.attachments.length: 0,
                 attachment_file_name: `${item.id}_attachments`,

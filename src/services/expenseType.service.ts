@@ -3,9 +3,6 @@ import {BaseDbService} from "./base-db.service";
 import {FindManyFilters, IFindManyFilters, IGenericObject, IPagination} from "../models/generic";
 import {Expense, ExpenseType} from "@prisma/client";
 import {IFilteredField, SetupPrismaQuery} from "../models/prisma.model";
-import {ICreateExpenseRequest} from "./expenses.service";
-import {moneyToDbFormat} from "../helpers/price";
-import {AttachmentsService} from "./attachments.service";
 export interface ICreateExpenseTypeRequest {
     title: string
 }
@@ -82,6 +79,6 @@ export class ExpenseTypeService extends BaseDbService {
     }
 
     async delete(id: number) {
-        return await this.db.expense.delete({where: {id}});
+        return await this.db.expenseType.delete({where: {id}});
     }
 }

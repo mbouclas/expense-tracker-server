@@ -4,6 +4,7 @@ import {JwtMiddleware} from "../middleware/jwt.middleware";
 import {Request} from "express";
 import {ExpensesService} from "../services/expenses.service";
 import {ExportService} from "../services/export.service";
+import {IGenericObject} from "../models/generic";
 
 @Service()
 @UseBefore(JwtMiddleware)
@@ -25,6 +26,13 @@ export class ExportsController {
     async exportMany(@Req() request: Request, @Body() ids: string[]) {
         return await this.exportService
             .fromQueryParams({id: ids.map(id => parseInt(id))})
+            .toExcel();
+    }
+
+    @Post('/filters')
+    async exportByFilters(@Req() request: Request, @Body() filters: IGenericObject) {
+        return await this.exportService
+            .fromQueryParams(filters)
             .toExcel();
     }
 
