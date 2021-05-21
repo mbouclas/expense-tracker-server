@@ -49,7 +49,6 @@ export class SetupPrismaQuery {
 
             // setup a relationship field
             if (filterList[idx].isRelationshipOf) {
-                console.log(this.setupWhereRelationalField(this.params[key], filterList[idx]))
                 this.where = {...this.where, ...this.setupWhereRelationalField(this.params[key], filterList[idx])};
             } else {
                 this.where = {...this.where, ...this.setupWhereField(key, this.params[key], filterList[idx])};
@@ -170,8 +169,9 @@ export class SetupPrismaQuery {
     private setupWhereField(key: string, filter: any, filteredField: IFilteredField) {
         const returnObject: IGenericObject = {};
         if (filteredField.operator === 'equals' && !Array.isArray(filter) && !filteredField.relationshipField) {
-            returnObject[key] =  { equals: filter };
+            returnObject[key] =  { equals: this.convertFieldType(filteredField, filter) };
         }
+
         if (filteredField.operator === 'equals' && !Array.isArray(filter) && filteredField.relationshipField) {
             const tmp: IGenericObject = {};
             tmp[filteredField.relationshipField] = this.convertFieldType(filteredField, filter);
@@ -181,7 +181,7 @@ export class SetupPrismaQuery {
         if (['equals','in'].indexOf(filteredField.operator) !== -1  && Array.isArray(filter)) {
 
             returnObject[key] = {
-                in: filter
+                in: filter.map((f: any) => this.convertFieldType(filteredField, f))
             };
         }
 
