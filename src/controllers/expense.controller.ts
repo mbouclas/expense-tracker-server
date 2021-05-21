@@ -30,6 +30,17 @@ export class ExpenseController {
         this.service = new ExpensesService();
     }
 
+    @Get('/group-by-vendor')
+    async groupByVendor(@Req() request: Request) {
+        return await this.service.groupByVendor(request.query || {});
+    }
+
+
+    @Get('/group-by-type')
+    async groupByType(@Req() request: Request) {
+        return await this.service.groupByExpenseType(request.query || {});
+    }
+
     /**
      * /api/expense?created_at%5Bmin%5D=2021-04-28T08%3A25%3A06.079Z&price%5Bmax%5D=1001&title=cab&page=1&limit=10
      * @param request
@@ -92,4 +103,6 @@ export class ExpenseController {
         const attachmentService = new AttachmentsService();
 
     }
+
+
 }

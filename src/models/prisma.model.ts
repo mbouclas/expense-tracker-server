@@ -91,8 +91,8 @@ export class SetupPrismaQuery {
         const q = Object.assign({}, this.query());
         delete q.include;
         delete q.select;
-        delete q.orderBy
-        delete q.limit
+        delete q.orderBy;
+        delete q.limit;
         const sum: IGenericObject = {};
         sum[field] = true;
         q.sum = sum;
@@ -100,6 +100,26 @@ export class SetupPrismaQuery {
         const res = await this.model.aggregate(q);
 
         return (res.sum && res.sum[field]) ?  res.sum[field] : 0;
+    }
+
+    async groupBy(field = 'vendorId') {
+        const q = Object.assign({}, this.query());
+        delete q.include;
+        delete q.select;
+        delete q.orderBy;
+        delete q.limit;
+        q.by = [field];
+
+        q._count = {
+            price: true,
+        };
+
+/*        q._count = {
+            id: true
+        }*/
+
+        return await this.model.groupBy(q);
+
     }
 
     async findMany() {

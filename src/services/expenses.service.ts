@@ -2,9 +2,11 @@ import {BaseDbService} from "./base-db.service";
 import {FindManyFilters, IFindManyFilters, IGenericObject, IPagination} from "../models/generic";
 import {Attachment, Expense, ExpenseType, User, Vendor} from "@prisma/client";
 import {IFilteredField, SetupPrismaQuery} from "../models/prisma.model";
-import {moneyToDbFormat} from "../helpers/price";
+import {moneyFromDbFormat, moneyToDbFormat} from "../helpers/price";
 import {AttachmentsService} from "./attachments.service";
 import {Service} from "typedi";
+import {Prisma} from "../index";
+import moment from "moment";
 export interface IExpense extends Expense {
     attachments?: Attachment[];
     user?: User;
@@ -25,6 +27,7 @@ export interface ICreateExpenseRequest {
 
 @Service()
 export class ExpensesService extends BaseDbService {
+
     filteredFields: IFilteredField[] = [
         {
             field: 'id',
@@ -53,6 +56,11 @@ export class ExpensesService extends BaseDbService {
         },
         {
             field: 'updated_at',
+            operator: 'range',
+            filterType: 'date',
+        },
+        {
+            field: 'purchased_at',
             operator: 'range',
             filterType: 'date',
         },
@@ -178,5 +186,49 @@ export class ExpensesService extends BaseDbService {
      */
     async delete(id: number) {
         return await this.db.$queryRaw(`DELETE from Expense WHERE Expense.id = ${id}`);
+    }
+
+    async groupByExpenseType(filters: IFindManyFilters = {}) {
+        const where = this.formWhereQuery(filters);
+        const q = `SELECT count(e.id) as instances,sum(e.price) as total,et.title from Expense e
+        INNER JOIN _ExpenseToExpenseType i ON i.A = e.id
+        INNER JOIN ExpenseType et ON et.id = i.B
+        
+        ${where.length > 0 ? `WHERE ${where}` : ''}
+        
+        GROUP BY et.title`;
+        const r = await Prisma.$queryRaw(q);
+        r.forEach((i: any) => i.total = moneyFromDbFormat(i.total));
+        return r;
+    }
+
+    async groupByVendor(filters: IFindManyFilters = {}) {
+        const where = this.formWhereQuery(filters);
+        const q = `SELECT count(e.id) as instances,sum(e.price) as total,v.title from Expense e
+        INNER JOIN Vendor v ON e.vendorId = v.id
+        
+        ${where.length > 0 ? `WHERE ${where}` : ''}
+        
+        GROUP BY v.title`;
+
+        const r = await Prisma.$queryRaw(q);
+        r.forEach((i: any) => i.total = moneyFromDbFormat(i.total));
+        return r;
+    }
+
+
+    private formWhereQuery(filters: IFindManyFilters = {}) {
+        const where: string[] = [];
+        if (filters.purchased_at && typeof filters.purchased_at === 'object') {
+            if (filters.purchased_at.min) {
+                where.push(`e.purchased_at > ${moment(filters.purchased_at.min).unix()}`)
+            }
+
+            if (filters.purchased_at.max) {
+                where.push(`e.purchased_at < ${moment(filters.purchased_at.max).unix()}`)
+            }
+        }
+
+        return where.join(' AND ');
     }
 }
