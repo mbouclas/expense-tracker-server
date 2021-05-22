@@ -11,8 +11,8 @@ import {VendorService} from "../services/vendor.service";
 export class BootClientController {
     @Get('')
     async boot(@Req() request: Request) {
-        const expenseTypes = await (new ExpenseTypeService()).all();
-        const vendors = await (new VendorService()).all();
+        const expenseTypes = await (new ExpenseTypeService()).all({orderBy: 'title', way: 'asc'});
+        const vendors = await (new VendorService()).all({orderBy: 'title', way: 'asc'});
         return {
             expenseTypes,
             vendors,
