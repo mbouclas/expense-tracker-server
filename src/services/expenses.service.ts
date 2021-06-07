@@ -66,12 +66,12 @@ export class ExpensesService extends BaseDbService {
         },
         {
             field: 'vendorId',
-            operator: 'equals',
+            operator: 'in',
             filterType: 'number',
         },
         {
             field: 'expenseTypeId',
-            operator: 'equals',
+            operator: 'in',
             filterType: 'number',
             isRelationshipOf: 'expenseTypes',
             relationshipField: 'id',

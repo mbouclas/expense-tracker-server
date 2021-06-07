@@ -199,10 +199,18 @@ export class SetupPrismaQuery {
         }
 
         if (['equals','in'].indexOf(filteredField.operator) !== -1  && Array.isArray(filter)) {
+            if (filteredField.relationshipField) {
+                const tmp: IGenericObject = {};
+                tmp[filteredField.relationshipField] = {
+                    in: filter.map((f: any) => this.convertFieldType(filteredField, f))
+                };
+                returnObject.some = tmp;
+            } else {
+                returnObject[key] = {
+                    in: filter.map((f: any) => this.convertFieldType(filteredField, f))
+                };
+            }
 
-            returnObject[key] = {
-                in: filter.map((f: any) => this.convertFieldType(filteredField, f))
-            };
         }
 
         if (filteredField.operator === 'contains') {
