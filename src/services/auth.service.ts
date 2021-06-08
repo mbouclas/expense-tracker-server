@@ -67,6 +67,7 @@ export class AuthService {
         }
 
         const session = decodedToken.session;
+
         const exists = await (new RedisService()).exists(`refresh-token-${session.id}`);
         if (!exists) {
             console.log(`No Redis key refresh-token-${session.id}`);
@@ -80,10 +81,14 @@ export class AuthService {
             return false;
         }
 
-        return this.generateSession({
+        const newSession = await this.generateSession({
             id: session.id,
             username: session.username,
         });
+
+        const ttl = moment.duration(moment(newSession.refreshTokenExpiresAt).diff(moment())).asMinutes();
+        await (new RedisService()).put(`refresh-token-${decodedToken.session.id}`, newSession.refreshToken, Math.round(ttl));
+        return newSession;
     }
 
     async generateSession(user: IPartialUser) {
@@ -94,6 +99,7 @@ export class AuthService {
             username: user.username,
             dateCreated: Date.now()
         });
+
 
         const expires = moment(result.expires).toDate();
         const issued = moment(result.issued).toDate();
@@ -109,6 +115,7 @@ export class AuthService {
             lastName: user.lastName,
             issued,
             expires,
+            refreshTokenExpiresAt: moment(result.refreshTokenExpiresAt).toISOString(),
         }
     }
 

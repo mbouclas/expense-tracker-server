@@ -67,6 +67,7 @@ export class JwtService {
 
             // Handle json parse errors, thrown when the payload is nonsense
             if (e.message.indexOf("Unexpected token") === 0) {
+                console.log('Junk token',sessionToken);
                 return {
                     type: "invalid-token"
                 };
