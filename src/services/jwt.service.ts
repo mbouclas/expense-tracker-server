@@ -54,6 +54,7 @@ export class JwtService {
             // These error strings can be found here:
             // https://github.com/hokaccha/node-jwt-simple/blob/c58bfe5e5bb049015fcd55be5fc1b2d5c652dbcd/lib/jwt.js
             if (e.message === "No token supplied" || e.message === "Not enough or too many segments") {
+                console.log('Bad token', e.message, sessionToken)
                 return {
                     type: "invalid-token"
                 };
